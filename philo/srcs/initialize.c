@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 07:20:53 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/11 08:59:53 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/11 18:44:30 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void init_philo(t_rules *rule, t_philo *philosophers)
     }
 }
 
-int init_rules(t_rules *rule, **argv)
+int init_rules(t_rules *rule, **argv,)
 {
     rule->nb_philosophers = ft_atoi(argv[1]);
     rule->time_to_die = ft_atoi(argv[2]);
@@ -46,4 +46,23 @@ int init_rules(t_rules *rule, **argv)
     }
     else
         rule->eatthismuch = -1;
+    
+}
+
+void    threadHandler(t_philo *philosophers)
+{
+    static int i = 0;
+    *philosophers->thread_id = i;
+    i++;
+}
+
+int threads(t_rules *rule, t_philo *philsopers)
+{
+    int i;
+
+    i = 0;
+    while(i < rule->nb_philosophers)
+    {
+        pthread_create(&(philsopers[i].thread_id), NULL, threadHandler, &philsopers[i])
+    }
 }
