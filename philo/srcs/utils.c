@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 07:44:29 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/11 07:56:49 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/11 08:54:18 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ int ft_atoi(char *str)
 {
     int i;
     int num;
+    int neg;
 
+    neg = 1;
     i = 0;
     while(str != '\0')
     {
@@ -25,7 +27,7 @@ int ft_atoi(char *str)
         if (str[i] == '-' || str[i] == '+')
         {
             if (str[i] == '-')
-                printf("Error negative input");
+                neg = -1;
             i++;
         }
         while(str[i] >= '0' && str[i] <= '9')
@@ -33,6 +35,6 @@ int ft_atoi(char *str)
             num = num * 10 + (str[i] - 48);
             i++;
         }
-        return (num);
+        return (neg * num);
     }
 }

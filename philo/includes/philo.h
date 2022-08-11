@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:31:34 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/11 08:16:18 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/11 08:55:52 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_rules
     int                 time_sleeping;
     int                 time_thinking;
     int                 time_to_die;
+    int                 eatthismuch;
 } t_rules;
 
 
