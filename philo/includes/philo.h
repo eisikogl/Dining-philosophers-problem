@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:31:34 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/11 08:55:52 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/13 01:33:36 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,6 @@
 # include <pthread.h>
 # include <string.h>
 
-typedef struct s_philo
-{
-   int				id;
-   int				l_fork_id;
-   int				r_fork_id;
-   int				ate;
-   long long		last_meal;
-   struct s_rules	*rules;
-   pthread_t		thread_id;
-   
-} t_philo;
-
 typedef struct s_rules
 {
 	int	                nb_philosophers;
@@ -42,5 +30,21 @@ typedef struct s_rules
     int                 eatthismuch;
 } t_rules;
 
+typedef struct s_philo
+{
+   int				id;
+   int				l_fork_id;
+   int				r_fork_id;
+   int				ate;
+   long long		last_meal;
+   struct s_rules	rules;
+   pthread_t		thread_id;
+   
+} t_philo;
 
+int ft_atoi(char *str);
+void init_philo(t_rules *rule, t_philo *philosophers);
+int init_rules(t_rules *rule,char **argv);
+void    *threadHandler(void *philosophers);
+void create_threads(t_rules *rule, t_philo *philsopers);
 # endif

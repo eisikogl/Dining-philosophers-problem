@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:31:15 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/11 18:17:44 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/13 01:42:25 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,13 @@
 
 int main(int argc, char **argv)
 {
-	t_rules	*rule;
-	t_philo philosophers[ft_atoi(argv[1])];
+	t_rules	rule;
+	t_philo *philosophers;
+
+    init_rules(&rule, argv);
+    philosophers = malloc(sizeof(t_philo) * rule.nb_philosophers);
+    init_philo(&rule, philosophers);
+    create_threads(&rule, philosophers);
         // number_of_times_each_philosopher_must_eat
         // times, the simulation stops. If not specified, the simulation stops when a
         // philosopher dies.
