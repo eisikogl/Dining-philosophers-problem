@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:31:34 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/14 03:20:46 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/14 05:25:29 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ typedef struct s_rules
     int                 time_thinking;
     int                 time_to_die;
     int                 eatthismuch;
+    long long           first_time;
     pthread_mutex_t		*forks;
+    pthread_mutex_t     meal_check;
+    pthread_mutex_t		writing;
 } t_rules;
 
 typedef struct s_philo
@@ -59,4 +62,6 @@ void    put_down_forks(t_philo *current_philo);
 void	exec_sleep(t_philo *current_philo);
 void	exec_think(t_philo *current_philo);
 void		smart_sleep(long long time, t_rules *rules);
+void	print_philo(t_rules *rules, int id, char *string);
+int death_check(t_philo *current_philo);
 # endif

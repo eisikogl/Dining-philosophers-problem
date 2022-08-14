@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 07:44:29 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/14 03:30:34 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/14 05:08:05 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,12 @@ void		smart_sleep(long long time, t_rules *rules)
 			break ;
 		usleep(50);
 	}
+}
+
+void	print_philo(t_rules *rules, int id, char *string)
+{
+		pthread_mutex_lock(&(rules->writing));
+		printf("%dms %i ", time_diff(timestamp(),rules->first_time),id + 1);
+		printf("%s\n", string);
+		pthread_mutex_unlock(&(rules->writing));
 }

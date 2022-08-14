@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 07:20:53 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/14 03:30:49 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/14 05:30:07 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	init_mutex(t_rules *rule)
 		pthread_mutex_init(&rule->forks[i], NULL);
         i++;
 	}
+    pthread_mutex_init(&rule->writing, NULL);
+    pthread_mutex_init(&rule->meal_check,NULL);
 	return (0);
 }
 
@@ -73,12 +75,10 @@ void    *threadHandler(void *philosophers)
     //die if u dont eat sleep+think
     if (current_philo->id % 2)
 		usleep(15000);
-    while(1)
+    while(death_check(current_philo))
     {
-       // philo_eats(current_philo);
         pick_up_left_fork(current_philo);
         pick_up_right_fork(current_philo);
-        current_philo->t_last_meal = timestamp();
         philo_eat(current_philo);
         put_down_forks(current_philo);
         exec_sleep(current_philo);
@@ -88,15 +88,28 @@ void    *threadHandler(void *philosophers)
     return NULL;
 }
 
+int death_check(t_philo *current_philo)
+{
+    if(time_diff(timestamp(),current_philo->t_last_meal) >= current_philo->rules->time_to_die)
+    {
+        print_philo(current_philo->rules, current_philo->id,"died");
+        
+        return 0;
+    }
+    return 1;
+}
+
 void create_threads(t_rules *rule, t_philo *philsopers)
 {
     int i;
 
     i = 0;
 
+    rule->first_time = timestamp();
     while(i < rule->nb_philosophers)
     {
         pthread_create(&(philsopers[i].thread_id), NULL, &threadHandler, &philsopers[i]);
+        philsopers[i].t_last_meal = timestamp();
         i++;
     }
 }
