@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 07:44:29 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/13 01:05:15 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/14 03:30:34 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,30 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (num * neg);
+}
+
+long long	timestamp(void)
+{
+	struct timeval	t;
+
+	gettimeofday(&t, NULL);
+	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
+}
+
+int time_diff(long long pres, long long past)
+{
+	return (pres - past);
+}
+
+void		smart_sleep(long long time, t_rules *rules)
+{
+	long long i;
+
+	i = timestamp();
+	while (1)
+	{
+		if (time_diff(timestamp(), i) >= time)
+			break ;
+		usleep(50);
+	}
 }

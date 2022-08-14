@@ -6,11 +6,12 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 07:20:53 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/13 01:42:17 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/14 03:30:49 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../includes/philo.h"
+
 
 int init_rules(t_rules *rule,char **argv)
 {
@@ -29,7 +30,7 @@ int init_rules(t_rules *rule,char **argv)
     }
     else
         rule->eatthismuch = -1;
-    return 0;
+	return (0);
 }
 
 void init_philo(t_rules *rule, t_philo *philosophers)
@@ -44,16 +45,47 @@ void init_philo(t_rules *rule, t_philo *philosophers)
         philosophers[i].ate = 0;
         philosophers[i].l_fork_id = i;
         philosophers[i].r_fork_id = (i + 1) % rule->nb_philosophers;
-        philosophers[i].last_meal = 0;
-        philosophers[i].rules = *rule;
+        philosophers[i].t_last_meal = 0;
+        philosophers[i].rules = rule;
     }
+}
+
+int	init_mutex(t_rules *rule)
+{
+	size_t	i;
+ 
+	rule->forks = malloc(sizeof(pthread_mutex_t) * rule->nb_philosophers);
+	i = 0;
+	while (i < rule->nb_philosophers)
+	{
+		pthread_mutex_init(&rule->forks[i], NULL);
+        i++;
+	}
+	return (0);
 }
 
 void    *threadHandler(void *philosophers)
 {
     t_philo *current_philo = (t_philo *)philosophers;
-    printf("time_stamp %d %d eating\n", 0, current_philo->id);
-    return (0);
+    //eat
+    //sleep after eat
+    //think till eating
+    //die if u dont eat sleep+think
+    if (current_philo->id % 2)
+		usleep(15000);
+    while(1)
+    {
+       // philo_eats(current_philo);
+        pick_up_left_fork(current_philo);
+        pick_up_right_fork(current_philo);
+        current_philo->t_last_meal = timestamp();
+        philo_eat(current_philo);
+        put_down_forks(current_philo);
+        exec_sleep(current_philo);
+        exec_think(current_philo);
+    }
+
+    return NULL;
 }
 
 void create_threads(t_rules *rule, t_philo *philsopers)

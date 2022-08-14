@@ -1,3 +1,3 @@
-gcc -pthread main.c initialize.c utils.c
-./a.out 9 800 200 200
+gcc -pthread main.c initialize.c utils.c startphilo.c
+./a.out 5 800 200 200
 rm ./a.out
