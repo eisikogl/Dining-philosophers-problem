@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:31:15 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/14 03:28:46 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/14 16:25:39 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,18 @@ int main(int argc, char **argv)
 	t_philo *philosophers;
     
     //do stuff
-    init_rules(&rule, argv);
-    philosophers = malloc(sizeof(t_philo) * rule.nb_philosophers);
-    init_mutex(&rule);
-    init_philo(&rule, philosophers);
-    create_threads(&rule, philosophers);
-
+    if (argc == 6)
+    {
+        //all ate
+    }
+    if (argc == 5 || argc == 6)
+    {
+        init_rules(&rule, argv);
+        philosophers = malloc(sizeof(t_philo) * rule.nb_philosophers);
+        init_mutex(&rule);
+        init_philo(&rule, philosophers);
+        create_threads(&rule, philosophers);
+    }
     int i = 0;
     while(i < rule.nb_philosophers)
     {

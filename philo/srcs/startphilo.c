@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 18:16:13 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/14 05:13:41 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/14 16:37:16 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	philo_eat(t_philo *current_philo)
 	pthread_mutex_lock(&(current_philo->rules->meal_check));
 	print_philo(current_philo->rules,current_philo->id,"is eating");
 	current_philo->t_last_meal = timestamp();
+	current_philo->ate++;
 	pthread_mutex_unlock(&(current_philo->rules->meal_check));
 	smart_sleep(current_philo->rules->time_eating, NULL);
 }
@@ -66,4 +67,15 @@ void	exec_sleep(t_philo *current_philo)
 void	exec_think(t_philo *current_philo)
 {
 	print_philo(current_philo->rules,current_philo->id,"is thinking");
+}
+
+int	check_all_ate(t_philo *philosopher)
+{
+	int i;
+
+	i = 0;
+	while()
+	{
+		philosopher[i]->ate_this_much < philosopher->rules->eat_this_much
+	}
 }
