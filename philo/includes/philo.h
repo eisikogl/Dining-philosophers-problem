@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:31:34 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/18 06:22:30 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/18 23:33:15 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_rules
     int                 eat_this_much;
     long long           first_time;
     int                 ate_all;
+    int                 ate_all_check;
     int                 somone_died;
     pthread_mutex_t		*forks;
     pthread_mutex_t     meal_check;
@@ -42,6 +43,7 @@ typedef struct s_philo
    int				l_fork_id;
    int				r_fork_id;
    int				ate_this_much;
+   int              ate;
    long long		t_last_meal;
    struct s_rules	*rules;
    pthread_t		thread_id;
@@ -69,5 +71,6 @@ int death_check(t_philo *current_philo);
 int	check_all_ate(t_philo *philosopher);
 void	exit_launcher(t_rules *rules, t_philo *philo);
 void	join_threads(t_rules *rules, t_philo *philo);
+void	check_eat(t_philo *current_philo);
 
 # endif

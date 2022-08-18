@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 07:44:29 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/18 06:27:07 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/18 22:05:13 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void		smart_sleep(long long time, t_philo *philo)
 void	print_philo(t_rules *rules, int id, char *string)
 {
 		pthread_mutex_lock(&(rules->writing));
-		if(!rules->somone_died && !rules->ate_all)
+		if(!(rules->somone_died))
 		{	
 			printf("%dms %i ", time_diff(timestamp(),rules->first_time),id + 1);
 			printf("%s\n", string);

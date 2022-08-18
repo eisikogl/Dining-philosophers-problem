@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:31:15 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/18 03:47:23 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/19 01:03:44 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ int main(int argc, char **argv)
         init_mutex(&rule);
         init_philo(&rule, philosophers);
         create_threads(&rule, philosophers);
-        join_threads(&rule,philosophers);
+        //join_threads(&rule,philosophers);
     }
-  
+    else
+        printf("Wrong Number of Arguments\n");
+        
         // number_of_times_each_philosopher_must_eat
         // times, the simulation stops. If not specified, the simulation stops when a
         // philosopher dies.
