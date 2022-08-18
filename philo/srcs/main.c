@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:31:15 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/14 16:25:39 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/18 03:47:23 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@ int main(int argc, char **argv)
 	t_philo *philosophers;
     
     //do stuff
-    if (argc == 6)
-    {
-        //all ate
-    }
     if (argc == 5 || argc == 6)
     {
         init_rules(&rule, argv);
@@ -35,13 +31,9 @@ int main(int argc, char **argv)
         init_mutex(&rule);
         init_philo(&rule, philosophers);
         create_threads(&rule, philosophers);
+        join_threads(&rule,philosophers);
     }
-    int i = 0;
-    while(i < rule.nb_philosophers)
-    {
-        pthread_join(philosophers[i].thread_id,NULL);
-        i++;
-    }
+  
         // number_of_times_each_philosopher_must_eat
         // times, the simulation stops. If not specified, the simulation stops when a
         // philosopher dies.

@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 07:44:29 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/14 05:08:05 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/18 06:27:07 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,16 @@ int time_diff(long long pres, long long past)
 	return (pres - past);
 }
 
-void		smart_sleep(long long time, t_rules *rules)
+void		smart_sleep(long long time, t_philo *philo)
 {
 	long long i;
 
 	i = timestamp();
-	while (1)
+	while (!(philo->rules->somone_died))
 	{
+		pthread_mutex_lock(&philo->rules->meal_check);
+		death_check(philo);
+		pthread_mutex_unlock(&philo->rules->meal_check);
 		if (time_diff(timestamp(), i) >= time)
 			break ;
 		usleep(50);
@@ -70,7 +73,10 @@ void		smart_sleep(long long time, t_rules *rules)
 void	print_philo(t_rules *rules, int id, char *string)
 {
 		pthread_mutex_lock(&(rules->writing));
-		printf("%dms %i ", time_diff(timestamp(),rules->first_time),id + 1);
-		printf("%s\n", string);
+		if(!rules->somone_died && !rules->ate_all)
+		{	
+			printf("%dms %i ", time_diff(timestamp(),rules->first_time),id + 1);
+			printf("%s\n", string);
+		}
 		pthread_mutex_unlock(&(rules->writing));
 }

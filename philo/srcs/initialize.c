@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 07:20:53 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/14 05:30:07 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/18 06:16:02 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 int init_rules(t_rules *rule,char **argv)
 {
+    rule->somone_died = 0;
+    rule->ate_all = 0;
     rule->nb_philosophers = ft_atoi(argv[1]);
     rule->time_to_die = ft_atoi(argv[2]);
     rule->time_eating = ft_atoi(argv[3]);
@@ -24,12 +26,12 @@ int init_rules(t_rules *rule,char **argv)
         return (1);
     if(argv[5])
     {
-       rule->eatthismuch = ft_atoi(argv[5]);
-       if (rule->eatthismuch <= 0)
+       rule->eat_this_much = ft_atoi(argv[5]);
+       if (rule->eat_this_much <= 0)
             return (1);
     }
     else
-        rule->eatthismuch = -1;
+        rule->eat_this_much = -1;
 	return (0);
 }
 
@@ -42,7 +44,7 @@ void init_philo(t_rules *rule, t_philo *philosophers)
     while (--i >= 0)
     {
         philosophers[i].id = i;
-        philosophers[i].ate = 0;
+        philosophers[i].ate_this_much = 0;
         philosophers[i].l_fork_id = i;
         philosophers[i].r_fork_id = (i + 1) % rule->nb_philosophers;
         philosophers[i].t_last_meal = 0;
@@ -75,11 +77,12 @@ void    *threadHandler(void *philosophers)
     //die if u dont eat sleep+think
     if (current_philo->id % 2)
 		usleep(15000);
-    while(death_check(current_philo))
+    while(!(current_philo->rules->somone_died) && !(current_philo->rules->ate_all))
     {
         pick_up_left_fork(current_philo);
         pick_up_right_fork(current_philo);
         philo_eat(current_philo);
+        check_all_ate(current_philo);
         put_down_forks(current_philo);
         exec_sleep(current_philo);
         exec_think(current_philo);
@@ -90,13 +93,34 @@ void    *threadHandler(void *philosophers)
 
 int death_check(t_philo *current_philo)
 {
-    if(time_diff(timestamp(),current_philo->t_last_meal) >= current_philo->rules->time_to_die)
+    if(time_diff(timestamp(),current_philo->t_last_meal) > current_philo->rules->time_to_die)
     {
-        print_philo(current_philo->rules, current_philo->id,"died");
-        
+        print_philo(current_philo->rules, current_philo->id,"died");  
+        current_philo->rules->somone_died = 1;
+        exit_launcher(current_philo->rules,current_philo); 
         return 0;
     }
     return 1;
+}
+
+void	join_threads(t_rules *rules, t_philo *philo)
+{
+	int i;
+
+	i = -1;
+	while (++i < rules->nb_philosophers)
+		pthread_join(philo[i].thread_id, NULL);
+}
+
+void	exit_launcher(t_rules *rules, t_philo *philo)
+{
+	int i;
+
+	i = -1;
+	while (++i < rules->nb_philosophers)
+		pthread_mutex_destroy(&(rules->forks[i]));
+	pthread_mutex_destroy(&(rules->writing));
+    pthread_mutex_destroy(&(rules->meal_check));
 }
 
 void create_threads(t_rules *rule, t_philo *philsopers)
@@ -111,5 +135,6 @@ void create_threads(t_rules *rule, t_philo *philsopers)
         pthread_create(&(philsopers[i].thread_id), NULL, &threadHandler, &philsopers[i]);
         philsopers[i].t_last_meal = timestamp();
         i++;
-    }
+    }    
+    //exit_launcher(rule,philsopers);
 }
