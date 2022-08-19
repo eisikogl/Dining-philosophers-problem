@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 07:20:53 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/19 01:00:21 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/19 23:28:07 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void init_philo(t_rules *rule, t_philo *philosophers)
 
 int	init_mutex(t_rules *rule)
 {
-	size_t	i;
+	int i;
  
 	rule->forks = malloc(sizeof(pthread_mutex_t) * rule->nb_philosophers);
 	i = 0;
@@ -102,7 +102,7 @@ int death_check(t_philo *current_philo)
 {
     if(time_diff(timestamp(),current_philo->t_last_meal) > current_philo->rules->time_to_die)
     {
-        print_philo(current_philo->rules, current_philo->id,"died");  
+        print_philo(current_philo->rules, current_philo->id,"died",5);  
         current_philo->rules->somone_died = 1;
         return 0;
     }

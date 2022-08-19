@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:31:34 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/18 23:33:15 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/19 22:56:18 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,20 @@ void    put_down_forks(t_philo *current_philo);
 void	exec_sleep(t_philo *current_philo);
 void	exec_think(t_philo *current_philo);
 void		smart_sleep(long long time, t_philo *philo);
-void	print_philo(t_rules *rules, int id, char *string);
+void	print_philo(t_rules *rules, int id, char *string,int color);
 int death_check(t_philo *current_philo);
 int	check_all_ate(t_philo *philosopher);
 void	exit_launcher(t_rules *rules, t_philo *philo);
 void	join_threads(t_rules *rules, t_philo *philo);
 void	check_eat(t_philo *current_philo);
+
+//Color output
+void pick_color(int color);
+void red();
+void yellow();
+void green();
+void blue();
+void purple();
+void reset();
 
 # endif

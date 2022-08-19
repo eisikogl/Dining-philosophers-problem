@@ -1,12 +1,30 @@
-Name = philosophers
+NAME = philo
 
-cc = gcc -pthread -Wall -Wextra -Werror
+CC = gcc
 
-srcs = initialize.c main.c startphilo.c utils.cc
+CFLAGS = -Wall -Wextra -Werror
 
-objs = 
+TFLAG = -pthread
 
-all = 
+RM = rm -rf
 
-Name
+SRCS = $(wildcard srcs/*.c)
+
+OBJS = $(SRCS:.c=.o)
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+		$(CC) $(TFLAG) $(CFLAGS) $(OBJS) -o $(NAME)
+
+clean:
+		$(RM) $(OBJS)
+	
+fclean: clean
+		$(RM) $(NAME)
+
+re: fclean all
+
+.PHONY:all clean fclean re
+
 
