@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 07:44:29 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/19 23:00:18 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/20 00:20:04 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void		smart_sleep(long long time, t_philo *philo)
 	i = timestamp();
 	while (!(philo->rules->somone_died))
 	{
-		pthread_mutex_lock(&philo->rules->meal_check);
-		death_check(philo);
-		pthread_mutex_unlock(&philo->rules->meal_check);
+		// pthread_mutex_lock(&philo->rules->meal_check);
+		// death_check(philo);
+		// pthread_mutex_unlock(&philo->rules->meal_check);
 		if (time_diff(timestamp(), i) >= time)
 			break ;
 		usleep(50);

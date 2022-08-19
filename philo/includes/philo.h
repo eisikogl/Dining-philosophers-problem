@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:31:34 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/19 22:56:18 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/20 00:34:12 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int ft_atoi(char *str);
 void init_philo(t_rules *rule, t_philo *philosophers);
 int init_rules(t_rules *rule,char **argv);
 void    *threadHandler(void *philosophers);
-void create_threads(t_rules *rule, t_philo *philsopers);
+int create_threads(t_rules *rule, t_philo *philsopers);
 int	init_mutex(t_rules *rule);
 long long	timestamp(void);
 int	time_diff(long long past, long long pres);
@@ -67,7 +67,7 @@ void	exec_sleep(t_philo *current_philo);
 void	exec_think(t_philo *current_philo);
 void		smart_sleep(long long time, t_philo *philo);
 void	print_philo(t_rules *rules, int id, char *string,int color);
-int death_check(t_philo *current_philo);
+void death_checker(t_rules *rules, t_philo *current_philo);
 int	check_all_ate(t_philo *philosopher);
 void	exit_launcher(t_rules *rules, t_philo *philo);
 void	join_threads(t_rules *rules, t_philo *philo);
