@@ -6,7 +6,7 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:31:34 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/20 00:34:12 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/20 03:06:37 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	check_all_ate(t_philo *philosopher);
 void	exit_launcher(t_rules *rules, t_philo *philo);
 void	join_threads(t_rules *rules, t_philo *philo);
 void	check_eat(t_philo *current_philo);
+int errorcheck(int argc,char **argv);
 
 //Color output
 void pick_color(int color);

@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   errorhandling.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/08 14:31:15 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/20 03:06:26 by eisikogl         ###   ########.fr       */
+/*   Created: 2022/08/20 02:33:21 by eisikogl          #+#    #+#             */
+/*   Updated: 2022/08/20 03:06:04 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+# include "../includes/philo.h"
 
-int main(int argc, char **argv)
+void errorhandler(int exit_mode)
 {
-	t_rules	rule;
-	t_philo *philosophers;
-    
-    if(!errorcheck(argc,argv))
+    if(exit_mode == 1)
+        printf("Wrong number of Arguments\n");
+    if(exit_mode == 2)
+        printf("There has to be atleast one Philosopher");
+}
+
+int errorcheck(int argc,char **argv)
+{
+    if(!(argc == 5 || argc == 6))
     {
-        init_rules(&rule, argv);
-        philosophers = malloc(sizeof(t_philo) * rule.nb_philosophers);
-        init_mutex(&rule);
-        init_philo(&rule, philosophers);
-        create_threads(&rule, philosophers);
+        errorhandler(1);
+        return (1);
+    }
+    if(ft_atoi(argv[1]) < 1)
+    {
+        errorhandler(2);
+        return (1);
     }
     return (0);
 }
