@@ -6,31 +6,31 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:33:21 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/20 03:06:04 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/08/21 06:14:13 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/philo.h"
+#include "../includes/philo.h"
 
-void errorhandler(int exit_mode)
+void	errorhandler(int exit_mode)
 {
-    if(exit_mode == 1)
-        printf("Wrong number of Arguments\n");
-    if(exit_mode == 2)
-        printf("There has to be atleast one Philosopher");
+	if (exit_mode == 1)
+		printf("Wrong number of Arguments\n");
+	if (exit_mode == 2)
+		printf("There has to be atleast one Philosopher");
 }
 
-int errorcheck(int argc,char **argv)
+int	errorcheck(int argc, char **argv)
 {
-    if(!(argc == 5 || argc == 6))
-    {
-        errorhandler(1);
-        return (1);
-    }
-    if(ft_atoi(argv[1]) < 1)
-    {
-        errorhandler(2);
-        return (1);
-    }
-    return (0);
+	if (!(argc == 5 || argc == 6))
+	{
+		errorhandler(1);
+		return (1);
+	}
+	if (ft_atoi(argv[1]) < 1)
+	{
+		errorhandler(2);
+		return (1);
+	}
+	return (0);
 }
