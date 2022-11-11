@@ -1,21 +1,33 @@
-NAME = philo
+NAME	= philo
 
-CC = gcc
+cc		= gcc
 
-CFLAGS = -Wall -Wextra -Werror
+SRCS	= main.c
 
-TFLAG = -pthread
+SRCS	+= coloroutput.c
+
+SRCS	+= utils.c
+
+SRCS	+= threads.c 
+
+SRCS	+= initialize.c
+
+SRCS	+= error_maneger.c
+
+SRCS	+= errorhandling.c
+
+OBJS	= $(SRCS:.c=.o)
 
 RM = rm -rf
 
-SRCS = $(wildcard srcs/*.c)
+FLAGS	= -Wall -Wextra -Werror 
 
-OBJS = $(SRCS:.c=.o)
+TFLAG = -pthread
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-		$(CC) $(TFLAG) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(TFLAG) $(FLAGS) $(OBJS) -o $(NAME)
 
 clean:
 		$(RM) $(OBJS)
@@ -25,6 +37,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY:all clean fclean re
-
-
+.PHONY: all clean fclean re

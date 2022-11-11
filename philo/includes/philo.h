@@ -5,77 +5,86 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/08 14:31:34 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/21 06:12:44 by eisikogl         ###   ########.fr       */
+/*   Created: 2022/10/13 18:30:51 by eisikogl          #+#    #+#             */
+/*   Updated: 2022/10/15 19:15:46 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#	ifndef PHILO_H
+#ifndef PHILO_H
 # define PHILO_H
 
+# include <sys/time.h>
+# include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h>
-# include <sys/time.h>
-# include <pthread.h>
 # include <string.h>
+# include <pthread.h>
+# include <stdbool.h>
 
-typedef struct s_rules
+typedef struct s_p
 {
-	int					nb_philosophers;
-	int					time_eating;
-	int					time_sleeping;
-	int					time_thinking;
-	int					time_to_die;
-	int					eat_this_much;
-	long long			first_time;
-	int					ate_all;
-	int					ate_all_check;
-	int					somone_died;
-	pthread_mutex_t		*forks;
-	pthread_mutex_t		meal_check;
-	pthread_mutex_t		writing;
-}	t_rules;
+	int			p_id;
+	int			p_l_fork_id;
+	int			p_r_fork_id;
+	long long	last_eat;
+	int			x_meal;
+	struct s_r	*rule;
+	pthread_t	thread_id;
+}	t_p;
 
-typedef struct s_philo
+typedef struct s_r
 {
-	int				id;
-	int				l_fork_id;
-	int				r_fork_id;
-	int				ate_this_much;
-	int				ate;
-	long long		t_last_meal;
-	struct s_rules	*rules;
-	pthread_t		thread_id;
-}	t_philo;
+	int				num_philo;
+	int				time_death;
+	int				time_eat;
+	int				time_sleep;
+	int				dieded;
+	long long		first_time;
+	int				temp_eat;
+	int				arg;
+	pthread_mutex_t	forks[250];
+	pthread_mutex_t	meal_check;
+	pthread_mutex_t	writing;
+	pthread_mutex_t	lock;
+	t_p				philo[250];
+}	t_r;
 
-void		philo_eats(t_philo *philosopher);
-int			ft_atoi(char *str);
-void		init_philo(t_rules *rule, t_philo *philosophers);
-int			init_rules(t_rules *rule, char **argv);
-void		*threadHandler(void *philosophers);
-int			create_threads(t_rules *rule, t_philo *philsopers);
-int			init_mutex(t_rules *rule);
-long long	timestamp(void);
-int			time_diff(long long past, long long pres);
+/*threads.c*/
+void		*threadhandler(void *philos);
+void		eats(t_p *phil);
+int			create_thread(t_r *rule);
 
-void		pick_up_right_fork(t_philo *current_philo);
-void		pick_up_left_fork(t_philo *current_philo);
-void		philo_eat(t_philo *current_philo);
-void		put_down_forks(t_philo *current_philo);
-void		exec_sleep(t_philo *current_philo);
-void		exec_think(t_philo *current_philo);
-void		smart_sleep(long long time, t_philo *philo);
-void		print_philo(t_rules *rules, int id, char *string, int color);
-void		death_checker(t_rules *rules, t_philo *current_philo);
-int			check_all_ate(t_philo *philosopher);
-void		exit_launcher(t_rules *rules, t_philo *philo);
-void		join_threads(t_rules *rules, t_philo *philo);
-void		check_eat(t_philo *current_philo);
-int			errorcheck(int argc, char **argv);
-
-//Color output
+/*utils.c*/
 void		pick_color(int color);
+int			ft_atoi(char *str);
+long long	start_time(void);
+long long	calculate_time(long long past, long long pres);
+void		timing(long long time, t_r *rule);
+
+/*error_maneger.c*/
+int			is_all_num(char *argv);
+int			write_error(char *str);
+int			error_manager(int error);
+
+/*errorhandling.c*/
+void		errorhandler(int exit_mode);
+int			errorcheck(int argc, char **argv);
+int			errorcheck_two(int argc, char **argv);
+
+/*Initialize.c*/
+int			init_rules(t_r *rule, char **argv);
+int			mutex_init(t_r *rule);
+void		philo_init(t_r *rule);
+
+/*main.c*/
+void		print_philo(t_r *rules, int id, char *string, int color);
+void		check_death_two(t_p *phil, t_r *r);
+void		check_death(t_r *r, t_p *phil);
+void		exit_thread(t_r *rule, t_p *phil);
+int			main(int argc, char **argv);
+
+/*Colorcoding*/
+
 void		red(void);
 void		yellow(void);
 void		green(void);
@@ -83,4 +92,4 @@ void		blue(void);
 void		purple(void);
 void		reset(void);
 
-#	endif
+#endif

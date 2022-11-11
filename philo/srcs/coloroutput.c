@@ -6,25 +6,11 @@
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 22:00:01 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/21 06:05:50 by eisikogl         ###   ########.fr       */
+/*   Updated: 2022/10/15 19:11:16 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
-
-void	pick_color(int color)
-{
-	if (color == 1)
-		red();
-	if (color == 2)
-		blue();
-	if (color == 3)
-		yellow();
-	if (color == 4)
-		green();
-	if (color == 5)
-		purple();
-}
+#include "philo.h"
 
 void	red(void)
 {
@@ -49,9 +35,4 @@ void	blue(void)
 void	purple(void)
 {
 	printf("\033[0;35m");
-}
-
-void	reset(void)
-{
-	printf("\033[0m");
 }

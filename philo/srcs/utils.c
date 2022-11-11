@@ -5,12 +5,26 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eisikogl <eisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/11 07:44:29 by eisikogl          #+#    #+#             */
-/*   Updated: 2022/08/21 06:30:18 by eisikogl         ###   ########.fr       */
+/*   Created: 2022/10/13 18:31:02 by eisikogl          #+#    #+#             */
+/*   Updated: 2022/10/15 22:21:08 by eisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "philo.h"
+
+void	pick_color(int color)
+{
+	if (color == 1)
+		red();
+	if (color == 2)
+		blue();
+	if (color == 3)
+		yellow();
+	if (color == 4)
+		green();
+	if (color == 5)
+		purple();
+}
 
 int	ft_atoi(char *str)
 {
@@ -41,7 +55,7 @@ int	ft_atoi(char *str)
 	return (num * neg);
 }
 
-long long	timestamp(void)
+long long	start_time(void)
 {
 	struct timeval	t;
 
@@ -49,34 +63,27 @@ long long	timestamp(void)
 	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
 }
 
-int	time_diff(long long pres, long long past)
+long long	calculate_time(long long past, long long pres)
 {
 	return (pres - past);
 }
 
-void	smart_sleep(long long time, t_philo *philo)
+void	timing(long long time, t_r *rule)
 {
-	long long	i;
+	long long	t;
 
-	i = timestamp();
-	while (!(philo->rules->somone_died))
+	t = start_time();
+	while (1)
 	{
-		if (time_diff(timestamp(), i) >= time)
+		pthread_mutex_lock(&(rule->lock));
+		if (rule->dieded)
+		{
+			pthread_mutex_unlock(&(rule->lock));
 			break ;
-		usleep(50);
+		}
+		pthread_mutex_unlock(&(rule->lock));
+		if (calculate_time(t, start_time()) >= time)
+			break ;
+		usleep(150);
 	}
-}
-
-void	print_philo(t_rules *rules, int id, char *string, int color)
-{
-	pthread_mutex_lock(&(rules->writing));
-	if (!(rules->somone_died))
-	{	
-		printf("%dms", time_diff(timestamp(), rules->first_time));
-		pick_color(color);
-		printf(" %i ", id + 1);
-		printf("%s\n", string);
-		reset();
-	}
-	pthread_mutex_unlock(&(rules->writing));
 }
